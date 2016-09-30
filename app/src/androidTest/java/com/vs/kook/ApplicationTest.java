@@ -1,4 +1,4 @@
-package com.vs.secureapp;
+package com.vs.kook;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

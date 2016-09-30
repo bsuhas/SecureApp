@@ -1,4 +1,4 @@
-package com.vs.secureapp;
+package com.vs.kook;
 
 import org.junit.Test;
 

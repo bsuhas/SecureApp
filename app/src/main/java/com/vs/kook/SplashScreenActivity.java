@@ -1,4 +1,4 @@
-package com.vs.secureapp;
+package com.vs.kook;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.vs.secureapp.view.activity.MainActivity;
+import com.vs.kook.view.activity.MainActivity;
 
 /**
  * Created by SUHAS on 27/09/2016.
