@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.vs.kook.view.activity.LoginScreenActivity;
 import com.vs.kook.view.activity.MainActivity;
 
 /**
@@ -44,9 +45,9 @@ public class SplashScreenActivity extends AppCompatActivity{
             startActivity(intent);
             finish();
         } else {
-//            Intent loginIntent = new Intent(SplashScreenActivity.this, LoginScreenActivity.class);
-//            startActivity(loginIntent);
-//            finish();
+            Intent loginIntent = new Intent(SplashScreenActivity.this, LoginScreenActivity.class);
+            startActivity(loginIntent);
+            finish();
         }
     }
 }
