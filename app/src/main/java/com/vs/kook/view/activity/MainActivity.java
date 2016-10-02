@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.vs.kook.R;
 import com.vs.kook.utils.Utils;
+import com.vs.kook.view.fragments.DashboardFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         this.mContext = this;
         init();
+        Bundle bundle = new Bundle();
+        setFragment(new DashboardFragment(), bundle);
+        setTitle("Dashboard");
     }
 
     private void init() {
@@ -69,6 +76,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
     }
+
+    public void setFragment(Fragment fragment, Bundle bundle) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        fragmentTransaction.replace(R.id.fl_container, fragment);
+        fragment.setArguments(bundle);
+        fragmentTransaction.commit();
+    }
+
+    void setTitle(String title) {
+        try {
+            getSupportActionBar().setTitle(title);
+        } catch (Exception e) {
+        }
+    }
+
 
     @Override
     public void onBackPressed() {

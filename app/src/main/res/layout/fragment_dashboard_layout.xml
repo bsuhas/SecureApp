@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:gauge="http://schemas.android.com/com.vs.kook/apk/res"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_white_1000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:layout_marginBottom="@dimen/margin_10dp"
+                android:orientation="vertical">
+
+                <com.vs.kook.view.custom.GaugeView
+                    android:id="@+id/gauge_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center" />
+
+                <TextView
+                    style="@style/DashBoard_Text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gauge_view1"
+                    android:gravity="center|bottom"
+                    android:text="Storage Usage"
+                    android:textColor="@color/md_white_1000" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_marginBottom="@dimen/margin_10dp"
+                android:orientation="vertical">
+
+                <com.vs.kook.view.custom.GaugeView
+                    android:id="@+id/gauge_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:gravity="center" />
+
+                <TextView
+                    style="@style/DashBoard_Text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gauge_view2"
+                    android:gravity="center|bottom"
+                    android:text="Ram Usage"
+                    android:textColor="@color/md_white_1000" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:layout_weight="0.6"
+            android:background="@color/md_white_1000"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <include layout="@layout/dashboard_menu_items_layout" />
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -12,4 +12,10 @@
     <string name="sign_in">Sign in </string>
     <string name="username_validation_msg">Please enter valid username</string>
     <string name="password_validation_msg">Please enter valid password.</string>
+    <string name="cache_cleaner">Cache cleaner</string>
+    <string name="message_backup">Message Backup</string>
+    <string name="contact_backup">Contact Backup</string>
+    <string name="app_locker">App Locker</string>
+    <string name="contact_message_history">Contact Message History</string>
+    <string name="uninstall_apps">Uninstall APPs</string>
 </resources>
