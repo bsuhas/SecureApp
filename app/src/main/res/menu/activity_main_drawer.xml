@@ -5,26 +5,33 @@
 
         <item
             android:id="@+id/nav_cache"
+            android:icon="@drawable/ic_brush"
             android:title="@string/cache_cleaner" />
         <item
             android:id="@+id/nav_app_lock"
+            android:icon="@drawable/ic_lock"
             android:title="@string/app_locker" />
         <item
             android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history"
             android:title="@string/contact_message_history" />
 
         <item
             android:id="@+id/nav_uninstall"
+            android:icon="@drawable/ic_delete"
             android:title="@string/uninstall_apps" />
         <item
             android:id="@+id/nav_contact_bkp"
+            android:icon="@drawable/ic_backup"
             android:title="@string/contact_backup" />
         <item
             android:id="@+id/nav_msg_bkp"
+            android:icon="@drawable/ic_backup"
             android:title="@string/message_backup" />
 
         <item
             android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
             android:title="@string/logout" />
     </group>
 
@@ -32,9 +39,11 @@
         <menu>
             <item
                 android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help"
                 android:title="@string/help" />
             <item
                 android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_contact"
                 android:title="@string/contact_us" />
         </menu>
     </item>
