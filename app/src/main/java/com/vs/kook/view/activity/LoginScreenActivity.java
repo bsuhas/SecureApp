@@ -1,6 +1,8 @@
 package com.vs.kook.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.vs.kook.R;
+import com.vs.kook.SplashScreenActivity;
 
 import org.json.JSONObject;
 
@@ -57,6 +60,9 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_button_login:
+                Intent intent = new Intent(LoginScreenActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -70,6 +76,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
 
                 obj.put("username", mUsername);
                 obj.put("password", mPassword);
+                obj.put("deviceId", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
 
             } catch (Exception e) {
                 e.printStackTrace();

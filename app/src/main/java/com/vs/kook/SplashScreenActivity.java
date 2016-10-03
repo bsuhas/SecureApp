@@ -39,7 +39,7 @@ public class SplashScreenActivity extends AppCompatActivity{
 
     private void checkUserLogin() {
 //        boolean isLoggedIn = UserPreferences.getInstance(mContext).isUserLogin();
-        boolean isLoggedIn = true;
+        boolean isLoggedIn = false;
         if (isLoggedIn) {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             startActivity(intent);

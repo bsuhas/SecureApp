@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.vs.kook.R;
 import com.vs.kook.utils.Utils;
+import com.vs.kook.view.fragments.CleanerFragment;
 import com.vs.kook.view.fragments.DashboardFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         init();
         Bundle bundle = new Bundle();
         setFragment(new DashboardFragment(), bundle);
-        setTitle("Dashboard");
+        setTitle(getString(R.string.dashboard));
     }
 
     private void init() {
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
     }
 
-    void setTitle(String title) {
+    public void setTitle(String title) {
         try {
             getSupportActionBar().setTitle(title);
         } catch (Exception e) {
@@ -108,23 +109,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        Bundle bundle = new Bundle();
         int id = item.getItemId();
 
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
-
+        switch (item.getItemId()) {
+            case R.id.nav_dashboard:
+                setTitle(R.string.dashboard);
+                setFragment(new DashboardFragment(), bundle);
+                break;
+            case R.id.nav_cache:
+                setTitle(R.string.cache_cleaner);
+                setFragment(new CleanerFragment(), bundle);
+                break;
+            default:
+                setTitle(R.string.dashboard);
+                setFragment(new DashboardFragment(), bundle);
+                break;
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
