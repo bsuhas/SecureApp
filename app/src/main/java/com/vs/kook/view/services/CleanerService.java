@@ -1,4 +1,4 @@
-package com.vs.kook.utils;
+package com.vs.kook.view.services;
 
 import android.Manifest;
 import android.app.Service;
@@ -341,8 +341,7 @@ public class CleanerService extends Service {
                 public void onCleanCompleted(Context context, boolean succeeded) {
                     if (succeeded) {
                         Log.d(TAG, "Cache cleaned");
-                    }
-                    else {
+                    } else {
                         Log.e(TAG, "Could not clean the cache");
                     }
 

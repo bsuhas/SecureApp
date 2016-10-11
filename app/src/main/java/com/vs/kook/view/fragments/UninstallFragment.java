@@ -9,11 +9,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
-import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -22,8 +20,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -32,24 +28,25 @@ import android.widget.Toast;
 
 import com.vs.kook.R;
 import com.vs.kook.view.activity.MainActivity;
-import com.vs.kook.view.services.CleanerService;
-import com.vs.kook.view.adapters.AppsListAdapter;
+import com.vs.kook.view.adapters.AppsUninstallListAdapter;
 import com.vs.kook.view.models.AppsListItem;
-import com.vs.kook.view.widget.DividerDecoration;
+import com.vs.kook.view.services.CleanerService;
 import com.vs.kook.view.widget.RecyclerView;
+import com.vs.kook.view.widget.UninstallDividerDecoration;
 
 import java.util.List;
 
-public class CleanerFragment extends Fragment implements CleanerService.OnActionListener {
+public class UninstallFragment extends Fragment implements CleanerService.OnActionListener {
 
     private static final int REQUEST_STORAGE = 0;
 
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    private static final int UNINSTALL_REQUEST_CODE = 1 ;
 
     private CleanerService mCleanerService;
-    private AppsListAdapter mAppsListAdapter;
+    private AppsUninstallListAdapter mAppsUninstallListAdapter;
     private TextView mEmptyView;
     private SharedPreferences mSharedPreferences;
     private ProgressDialog mProgressDialog;
@@ -70,9 +67,7 @@ public class CleanerFragment extends Fragment implements CleanerService.OnAction
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mCleanerService = ((CleanerService.CleanerServiceBinder) service).getService();
-            mCleanerService.setOnActionListener(CleanerFragment.this);
-
-            updateStorageUsage();
+            mCleanerService.setOnActionListener(UninstallFragment.this);
 
             if (!mCleanerService.isCleaning() && !mCleanerService.isScanning()) {
                 if (mSharedPreferences.getBoolean(mCleanOnAppStartupKey, false) &&
@@ -100,19 +95,18 @@ public class CleanerFragment extends Fragment implements CleanerService.OnAction
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-//        mSortByKey = getString(R.string.sort_by_key);
         mCleanOnAppStartupKey = getString(R.string.clean_on_app_startup_key);
         mExitAfterCleanKey = getString(R.string.exit_after_clean_key);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        mAppsListAdapter = new AppsListAdapter();
+        mAppsUninstallListAdapter = new AppsUninstallListAdapter();
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setCanceledOnTouchOutside(false);
-        mProgressDialog.setTitle(R.string.cleaning_cache);
-        mProgressDialog.setMessage(getString(R.string.cleaning_in_progress));
+        mProgressDialog.setTitle("");
+        mProgressDialog.setMessage("Loading");
         mProgressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -134,49 +128,18 @@ public class CleanerFragment extends Fragment implements CleanerService.OnAction
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAppsListAdapter);
+        recyclerView.setAdapter(mAppsUninstallListAdapter);
         recyclerView.setEmptyView(mEmptyView);
-        recyclerView.addItemDecoration(new DividerDecoration(getActivity()));
+        recyclerView.addItemDecoration(new UninstallDividerDecoration(getActivity()));
 
         mProgressBar = rootView.findViewById(R.id.progressBar);
         mProgressBarText = (TextView) rootView.findViewById(R.id.progressBarText);
-        ((MainActivity) getActivity()).setTitle(getActivity().getString(R.string.cache_cleaner));
+        ((MainActivity) getActivity()).setTitle(getActivity().getString(R.string.uninstall_apps));
         return rootView;
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        mOptionsMenu = menu;
-
-        inflater.inflate(R.menu.main, menu);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_clean:
-                if (mCleanerService != null && !mCleanerService.isScanning() &&
-                        !mCleanerService.isCleaning() && mCleanerService.getCacheSize() > 0) {
-                    mAlreadyCleaned = false;
-
-                    cleanCache();
-                }
-                return true;
-
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     @Override
     public void onResume() {
-        updateStorageUsage();
-
         if (mCleanerService != null) {
             if (mCleanerService.isScanning() && !isProgressBarVisible()) {
                 showProgressBar(true);
@@ -207,47 +170,14 @@ public class CleanerFragment extends Fragment implements CleanerService.OnAction
 
         super.onDestroy();
     }
-
-    private void updateStorageUsage() {
-        if (mAppsListAdapter != null) {
-            StatFs stat = new StatFs(Environment.getDataDirectory().getAbsolutePath());
-
-            long totalMemory = (long) stat.getBlockCount() * (long) stat.getBlockSize();
-            long medMemory = mCleanerService != null ? mCleanerService.getCacheSize() : 0;
-            long lowMemory = (long) stat.getAvailableBlocks() * (long) stat.getBlockSize();
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB &&
-                    !Environment.isExternalStorageEmulated()) {
-                stat = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
-
-                totalMemory += (long) stat.getBlockCount() * (long) stat.getBlockSize();
-                lowMemory += (long) stat.getAvailableBlocks() * (long) stat.getBlockSize();
-            }
-
-            long highMemory = totalMemory - medMemory - lowMemory;
-
-            mAppsListAdapter.updateStorageUsage(totalMemory, lowMemory, medMemory, highMemory);
-        }
-    }
-
-    private AppsListAdapter.SortBy getSortBy() {
+    private AppsUninstallListAdapter.SortBy getSortBy() {
         try {
-            return AppsListAdapter.SortBy.valueOf(mSharedPreferences.getString(mSortByKey,
-                    AppsListAdapter.SortBy.CACHE_SIZE.toString()));
+            return AppsUninstallListAdapter.SortBy.valueOf(mSharedPreferences.getString(mSortByKey,
+                    AppsUninstallListAdapter.SortBy.APP_NAME.toString()));
         } catch (ClassCastException e) {
-            return AppsListAdapter.SortBy.CACHE_SIZE;
+            return AppsUninstallListAdapter.SortBy.APP_NAME;
         }
     }
-
-    private void setSortBy(AppsListAdapter.SortBy sortBy) {
-        mSharedPreferences.edit().putString(mSortByKey, sortBy.toString()).apply();
-
-        if (mCleanerService != null && !mCleanerService.isScanning() &&
-                !mCleanerService.isCleaning()) {
-            mAppsListAdapter.sortAndFilter(getActivity(), sortBy, mSearchQuery);
-        }
-    }
-
     private boolean isProgressBarVisible() {
         return mProgressBar.getVisibility() == View.VISIBLE;
     }
@@ -322,14 +252,11 @@ public class CleanerFragment extends Fragment implements CleanerService.OnAction
 
     @Override
     public void onScanCompleted(Context context, List<AppsListItem> apps) {
-        mAppsListAdapter.setItems(getActivity(), apps, getSortBy(), mSearchQuery);
+        mAppsUninstallListAdapter.setItems(getActivity(), apps, getSortBy(), mSearchQuery);
 
         if (isAdded()) {
-            updateStorageUsage();
-
             showProgressBar(false);
         }
-
         mAlreadyScanned = true;
     }
 
@@ -349,12 +276,10 @@ public class CleanerFragment extends Fragment implements CleanerService.OnAction
     @Override
     public void onCleanCompleted(Context context, boolean succeeded) {
         if (succeeded) {
-            mAppsListAdapter.trashItems();
+            mAppsUninstallListAdapter.trashItems();
         }
 
         if (isAdded()) {
-            updateStorageUsage();
-
             if (mProgressDialog.isShowing()) {
                 mProgressDialog.dismiss();
             }

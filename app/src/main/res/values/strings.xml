@@ -16,7 +16,8 @@
     <string name="message_backup">Message Backup</string>
     <string name="contact_backup">Contact Backup</string>
     <string name="app_locker">App Locker</string>
-    <string name="contact_message_history">Contact Message History</string>
+    <string name="contact_message_history">Contact History</string>
+    <string name="message_history">Message History</string>
     <string name="uninstall_apps">Uninstall APPs</string>
     <string name="logout">Logout</string>
     <string name="communicate">Communicate</string>
@@ -72,6 +73,15 @@
     <string name="rationale_title">Insufficient permissions</string>
     <string name="rationale_storage">Storage permission is needed to clean external cache.</string>
     <string name="dashboard">Dashboard</string>
+    <string name="call_history">Call History</string>
+    <string name="number">Number :</string>
+    <string name="date">Date :</string>
+    <string name="time">Time :</string>
+    <string name="duration">Duration :</string>
+    <string name="err_msg_are_sure">Are you sure ?</string>
+    <string name="call_back">CallBack</string>
+    <string name="delete">Delete</string>
+    <string name="feedback">Feedback</string>
 
 
 </resources>

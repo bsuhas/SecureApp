@@ -1,4 +1,4 @@
-package com.vs.kook.utils;
+package com.vs.kook.view.broadcast;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.vs.kook.R;
+import com.vs.kook.view.services.CleanerService;
 
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {

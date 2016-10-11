@@ -19,9 +19,12 @@ import android.view.MenuItem;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.vs.kook.R;
+import com.vs.kook.utils.DialogUtils;
 import com.vs.kook.utils.Utils;
+import com.vs.kook.view.fragments.CallHistoryFragment;
 import com.vs.kook.view.fragments.CleanerFragment;
 import com.vs.kook.view.fragments.DashboardFragment;
+import com.vs.kook.view.fragments.UninstallFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -102,7 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                DialogUtils.showYesNoLogoutConfirmDialogAndFinishActivity(this, "", "Do you want to close the app?");
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -114,15 +121,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()) {
             case R.id.nav_dashboard:
-                setTitle(R.string.dashboard);
+                setTitle(getString(R.string.dashboard));
                 setFragment(new DashboardFragment(), bundle);
                 break;
             case R.id.nav_cache:
-                setTitle(R.string.cache_cleaner);
+                setTitle(getString(R.string.cache_cleaner));
                 setFragment(new CleanerFragment(), bundle);
                 break;
+            case R.id.nav_history:
+                setTitle(getString(R.string.call_history));
+                setFragment(new CallHistoryFragment(), bundle);
+                break;
+            case R.id.nav_uninstall:
+                setTitle(getString(R.string.uninstall_apps));
+                setFragment(new UninstallFragment(), bundle);
+                break;
             default:
-                setTitle(R.string.dashboard);
+                setTitle(getString(R.string.dashboard));
                 setFragment(new DashboardFragment(), bundle);
                 break;
         }
