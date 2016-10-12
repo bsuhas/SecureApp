@@ -106,7 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_120dp"
                         android:padding="@dimen/margin_10dp"
-                        android:src="@drawable/ic_diary" />
+                        android:src="@drawable/ic_message_history" />
 
                     <TextView
                         style="@style/DashBoard_Text_style"
@@ -135,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_120dp"
                         android:padding="@dimen/margin_10dp"
-                        android:src="@drawable/ic_history" />
+                        android:src="@drawable/ic_message_history" />
 
                     <TextView
                         style="@style/DashBoard_Text_style"
