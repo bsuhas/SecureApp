@@ -23,13 +23,13 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_weight="0.2"
-            android:src="@drawable/call" />
+            android:src="@drawable/ic_sms" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_5dp"
-            android:layout_weight="0.8"
+            android:layout_weight="0.6"
             android:orientation="vertical">
 
             <TextView
@@ -44,41 +44,30 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txt_date"
+                android:id="@+id/txt_sms_body"
                 fontPath="fonts/Roboto-Bold.ttf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_5dp"
-                android:maxLines="1"
-                android:text="@string/date"
-                android:textColor="@color/light_gray_80"
-                android:textSize="@dimen/text_16sp" />
-
-           <!-- <TextView
-                android:id="@+id/txt_time"
-                fontPath="fonts/Roboto-Bold.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:maxLines="1"
-                android:padding="@dimen/margin_2dp"
-                android:text="@string/time"
-                android:visibility="gone"
-                android:textColor="@color/light_gray_80"
-                android:textSize="@dimen/text_16sp" />-->
-
-            <TextView
-                android:id="@+id/txt_duration"
-                fontPath="fonts/Roboto-Bold.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:maxLines="1"
-                android:text="@string/duration"
+                android:maxLines="2"
+                android:text="Content"
                 android:textColor="@color/light_gray_80"
                 android:textSize="@dimen/text_16sp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_sms_date"
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:maxLines="1"
+            android:text="2 Oct"
+            android:textColor="@color/light_gray_80"
+            android:textSize="@dimen/text_15sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 

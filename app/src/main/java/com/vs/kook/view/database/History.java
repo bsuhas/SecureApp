@@ -83,7 +83,7 @@ public class History extends ContentObserver {
             //  String duration_new=sdf_dur.format(new Date(Long.parseLong(callDuration)));
 
             DBHelper db = new DBHelper(mContext);
-            db.insertdata(phNumber, dateString, timeString, callDuration, dir);
+            db.insertCallHistoryData(phNumber, dateString, timeString, callDuration, dir);
 
         }
 

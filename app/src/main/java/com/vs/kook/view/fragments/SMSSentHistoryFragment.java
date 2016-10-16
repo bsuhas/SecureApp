@@ -14,30 +14,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vs.kook.R;
-import com.vs.kook.view.adapters.OutgoingAdapter;
-import com.vs.kook.view.models.CallHistoryModel;
+import com.vs.kook.utils.Constants;
+import com.vs.kook.view.adapters.SMSAdapter;
+import com.vs.kook.view.models.SMSHistoryModel;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by SUHAS on 06/10/2016.
  */
 
 @SuppressLint("ValidFragment")
-public class MissedCallHistoryFragment extends Fragment {
-    int color;
-    ArrayList<CallHistoryModel> modelCallHistoryList = new ArrayList<>();
+public class SMSSentHistoryFragment extends Fragment {
+    private ArrayList<SMSHistoryModel> modelSMSHistoryList = new ArrayList<>();
     private Context mContext;
 
     @SuppressLint("ValidFragment")
-    public MissedCallHistoryFragment(int color, ArrayList<CallHistoryModel> outgoingCallHistoryList) {
+    public SMSSentHistoryFragment(ArrayList<SMSHistoryModel> outgoingCallHistoryList) {
         for(int i= 0;i<outgoingCallHistoryList.size();i++){
-            CallHistoryModel model = outgoingCallHistoryList.get(i);
-            if(model.getType().equalsIgnoreCase("MISSED")){
-                modelCallHistoryList.add(model);
+            SMSHistoryModel model = outgoingCallHistoryList.get(i);
+            if(model.getType().equalsIgnoreCase(""+ Constants.SENT_SMS)){
+                modelSMSHistoryList.add(model);
             }
         }
-//        modelCallHistoryList = outgoingCallHistoryList;
     }
 
     @Override
@@ -57,16 +56,17 @@ public class MissedCallHistoryFragment extends Fragment {
         rvOutGoing.setLayoutManager(mLayoutManager);
         rvOutGoing.setItemAnimator(new DefaultItemAnimator());
 
-        if (modelCallHistoryList.size() > 0) {
-            OutgoingAdapter adapter = new OutgoingAdapter(getContext(), modelCallHistoryList);
+        if (modelSMSHistoryList.size() > 0) {
+            SMSAdapter adapter = new SMSAdapter(getContext(),modelSMSHistoryList);
             rvOutGoing.setAdapter(adapter);
             rlEmpty.setVisibility(View.GONE);
             rvOutGoing.setVisibility(View.VISIBLE);
         } else {
             rlEmpty.setVisibility(View.VISIBLE);
             rvOutGoing.setVisibility(View.GONE);
-            txtEmptyView.setText(mContext.getResources().getString(R.string.oops_no_call_history));
+            txtEmptyView.setText(mContext.getResources().getString(R.string.oops_no_msg_history));
         }
+
     }
 
 

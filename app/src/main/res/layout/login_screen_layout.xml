@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/margin_30dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_shield_one" />
+            android:src="@drawable/ic_splash_logo" />
 
         <TextView
             android:id="@+id/login_tv_username"

@@ -91,7 +91,7 @@
             android:weightSum="1">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cv_contact_msg_history"
+                android:id="@+id/cv_call_history"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10dp"
@@ -106,7 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_120dp"
                         android:padding="@dimen/margin_10dp"
-                        android:src="@drawable/ic_message_history" />
+                        android:src="@drawable/ic_contact_history" />
 
                     <TextView
                         style="@style/DashBoard_Text_style"
@@ -276,7 +276,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_120dp"
                         android:padding="@dimen/margin_10dp"
-                        android:src="@drawable/ic_help" />
+                        android:src="@drawable/ic_feedback" />
 
                     <TextView
                         style="@style/DashBoard_Text_style"

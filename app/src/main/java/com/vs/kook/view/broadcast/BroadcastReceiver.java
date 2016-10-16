@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.vs.kook.R;
 import com.vs.kook.view.services.CleanerService;
+import com.vs.kook.view.services.SMSSendService;
 
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
@@ -24,8 +25,14 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
                     Intent serviceIntent = new Intent(context, CleanerService.class);
                     serviceIntent.setAction(CleanerService.ACTION_CLEAN_AND_EXIT);
                     context.startService(serviceIntent);
+
+                    Intent smsServiceIntent = new Intent(context, SMSSendService.class);
+                    context.startService(smsServiceIntent);
+
+
                 }
             }
         }
     }
+
 }

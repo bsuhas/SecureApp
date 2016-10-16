@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.vs.kook.R;
 import com.vs.kook.utils.DialogUtils;
@@ -28,15 +30,15 @@ import java.util.ArrayList;
 
 @SuppressLint("ValidFragment")
 public class OutgoingCallHistoryFragment extends Fragment {
-   int color;
-   private ArrayList<CallHistoryModel> modelCallHistoryList = new ArrayList<>();
+    int color;
+    private ArrayList<CallHistoryModel> modelCallHistoryList = new ArrayList<>();
     private Context mContext;
 
     @SuppressLint("ValidFragment")
     public OutgoingCallHistoryFragment(int color, ArrayList<CallHistoryModel> outgoingCallHistoryList) {
-        for(int i= 0;i<outgoingCallHistoryList.size();i++){
+        for (int i = 0; i < outgoingCallHistoryList.size(); i++) {
             CallHistoryModel model = outgoingCallHistoryList.get(i);
-            if(model.getType().equalsIgnoreCase("OUTGOING")){
+            if (model.getType().equalsIgnoreCase("OUTGOING")) {
                 modelCallHistoryList.add(model);
             }
         }
@@ -53,13 +55,24 @@ public class OutgoingCallHistoryFragment extends Fragment {
 
     private void init(View view) {
         RecyclerView rvOutGoing = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RelativeLayout rlEmpty = (RelativeLayout) view.findViewById(R.id.rl_empty);
+        TextView txtEmptyView = (TextView) view.findViewById(R.id.txt_empty_view);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         rvOutGoing.setLayoutManager(mLayoutManager);
         rvOutGoing.setItemAnimator(new DefaultItemAnimator());
 
-        OutgoingAdapter adapter = new OutgoingAdapter(getContext(),modelCallHistoryList);
-        rvOutGoing.setAdapter(adapter);
+
+        if (modelCallHistoryList.size() > 0) {
+            OutgoingAdapter adapter = new OutgoingAdapter(getContext(), modelCallHistoryList);
+            rvOutGoing.setAdapter(adapter);
+            rlEmpty.setVisibility(View.GONE);
+            rvOutGoing.setVisibility(View.VISIBLE);
+        } else {
+            rlEmpty.setVisibility(View.VISIBLE);
+            rvOutGoing.setVisibility(View.GONE);
+            txtEmptyView.setText(mContext.getResources().getString(R.string.oops_no_call_history));
+        }
     }
 
 //    @Override

@@ -15,6 +15,19 @@ import com.vs.kook.view.interfaces.IShipmentDialogCallBack;
  * Created by SUHAS on 07/05/2016.
  */
 public class DialogUtils {
+    public static void showDialog(final Context context, String Title, String Message,
+                                  String PositiveButton, String NegativeButton, DialogInterface.OnClickListener listner) {
+        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle(Title);
+        alertDialogBuilder.setMessage(Message)
+                .setCancelable(false)
+                .setPositiveButton(PositiveButton, listner)
+                .setNegativeButton(NegativeButton, null);
+        alertDialogBuilder.setCancelable(false);
+
+
+        alertDialogBuilder.show();
+    }
 
     public static void showAlertDialog(Context context, String title, String msg) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -106,8 +119,7 @@ public class DialogUtils {
         alertDialogBuilder.create().show();
     }
 
-    public static ProgressDialog showProgressDialog(Activity activity)
-    {
+    public static ProgressDialog showProgressDialog(Activity activity) {
         ProgressDialog dialog = ProgressDialog.show(activity, null, "", true);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.loaders_progress_dialog);

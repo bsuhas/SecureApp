@@ -13,6 +13,7 @@ import com.vs.kook.R;
 import com.vs.kook.view.models.CallHistoryModel;
 import com.vs.kook.view.widget.RecyclerView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /*
@@ -40,10 +41,10 @@ public class OutgoingAdapter extends RecyclerView.Adapter<OutgoingAdapter.Outgoi
     @Override
     public void onBindViewHolder(final OutgoingViewHolder holder, int position) {
         CallHistoryModel model = callHistoryModelArrayList.get(position);
-        holder.number.setText(mContext.getString(R.string.number)+""+model.getNumber());
-        holder.date.setText(mContext.getString(R.string.date)+""+model.getDate());
-        holder.time.setText(mContext.getString(R.string.time)+""+model.getTime());
-        holder.duration.setText(mContext.getString(R.string.duration)+""+model.getDuration());
+        holder.number.setText(model.getNumber());
+        holder.date.setText(model.getDate() +" , " + model.getTime());
+        String dur = splitToComponentTimes(Long.parseLong(model.getDuration()));
+        holder.duration.setText(dur);
     }
 
     @Override
@@ -51,15 +52,30 @@ public class OutgoingAdapter extends RecyclerView.Adapter<OutgoingAdapter.Outgoi
         return callHistoryModelArrayList.size();
     }
 
+
+    public String splitToComponentTimes(long biggy)
+    {
+        long longVal = biggy;
+        int hours = (int) longVal / 3600;
+        int remainder = (int) longVal - hours * 3600;
+        int mins = remainder / 60;
+        remainder = remainder - mins * 60;
+        int secs = remainder;
+
+        String s = hours + " Hours, "+mins +" Min, "+ secs +" Sec";
+//        int[] ints = {hours , mins , secs};
+        return s;
+    }
+
     public class OutgoingViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView number, date, time, duration;
+        private final TextView number, date, duration;
 
         public OutgoingViewHolder(View view) {
             super(view);
             number = (TextView) view.findViewById(R.id.txt_number);
             date = (TextView) view.findViewById(R.id.txt_date);
-            time = (TextView) view.findViewById(R.id.txt_time);
+//            time = (TextView) view.findViewById(R.id.txt_time);
             duration = (TextView) view.findViewById(R.id.txt_duration);
         }
 //        @Override

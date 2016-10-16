@@ -1,6 +1,5 @@
 package com.vs.kook;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.vs.kook.view.activity.LoginScreenActivity;
 import com.vs.kook.view.activity.MainActivity;
+import com.vs.kook.view.services.SMSSendService;
 
-/**
+/*
  * Created by SUHAS on 27/09/2016.
  */
 public class SplashScreenActivity extends AppCompatActivity{
@@ -24,6 +24,10 @@ public class SplashScreenActivity extends AppCompatActivity{
         setContentView(R.layout.splash_screen_layout);
         mContext = this;
         displayLandingScreen();
+
+        Intent smsServiceIntent = new Intent(mContext, SMSSendService.class);
+                    mContext.startService(smsServiceIntent);
+
     }
 
     public void displayLandingScreen() {
@@ -39,7 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity{
 
     private void checkUserLogin() {
 //        boolean isLoggedIn = UserPreferences.getInstance(mContext).isUserLogin();
-        boolean isLoggedIn = true;
+        boolean isLoggedIn = false;
         if (isLoggedIn) {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             startActivity(intent);

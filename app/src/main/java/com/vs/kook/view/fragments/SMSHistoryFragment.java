@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.vs.kook.R;
 import com.vs.kook.view.activity.MainActivity;
 import com.vs.kook.view.database.DBHelper;
-import com.vs.kook.view.models.CallHistoryModel;
+import com.vs.kook.view.models.SMSHistoryModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +26,9 @@ import java.util.List;
  * Created by SUHAS on 06/10/2016.
  */
 
-public class CallHistoryFragment extends Fragment {
+public class SMSHistoryFragment extends Fragment {
     private Context mContext;
-    private ArrayList<CallHistoryModel> mCallHistoryList;
+    private ArrayList<SMSHistoryModel> mSmsHistoryList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +40,13 @@ public class CallHistoryFragment extends Fragment {
     }
 
     private void getData(View view) {
-        mCallHistoryList = getCallHistory(mContext);
+        DBHelper db = new DBHelper(mContext);
+        mSmsHistoryList = db.getSMSHistoryData();
         init(view);
     }
 
     private void init(View view) {
-        ((MainActivity) getActivity()).setTitle(mContext.getString(R.string.call_history));
+        ((MainActivity) getActivity()).setTitle(mContext.getString(R.string.sms_history));
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.tabanim_viewpager);
         setupViewPager(viewPager);
 
@@ -81,38 +82,13 @@ public class CallHistoryFragment extends Fragment {
 
     }
 
-    private  ArrayList<CallHistoryModel> getCallHistory(Context context) {
-        DBHelper db = new DBHelper(context);
-        ArrayList<CallHistoryModel> list = new ArrayList<>();
-        Cursor c = db.getCallHistoryData();
-
-        if (c.getCount() > 0) {
-            c.moveToFirst();
-            do {
-                CallHistoryModel model = new CallHistoryModel();
-                model.setNumber(c.getString(0));
-                model.setDate(c.getString(1));
-                model.setTime(c.getString(2));
-                model.setDuration(c.getString(3));
-                model.setType(c.getString(4));
-                Log.e("Test",model.getType());
-                list.add(model);
-            } while (c.moveToNext());
-        } else {
-            Log.e("Call Details:", "No Incoming and Outgoing call history exists!!!");
-        }
-        return list;
-    }
-
-
     private void setupViewPager(ViewPager viewPager) {
         Bundle bundle=new Bundle();
-        bundle.putString("CallHistoryModel", "From Activity");
+        bundle.putString("SMSHistoryModel", "From Activity");
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFrag(new OutgoingCallHistoryFragment(ContextCompat.getColor(getActivity(),R.color.md_white_1000),mCallHistoryList), "Outgoing");
-        adapter.addFrag(new IncomingCallHistoryFragment(ContextCompat.getColor(getActivity(),R.color.md_white_1000),mCallHistoryList), "Incoming");
-        adapter.addFrag(new MissedCallHistoryFragment(ContextCompat.getColor(getActivity(),R.color.md_white_1000),mCallHistoryList), "Missed");
+        adapter.addFrag(new SMSReceivedHistoryFragment(mSmsHistoryList), "Received Messages");
+        adapter.addFrag(new SMSSentHistoryFragment(mSmsHistoryList), "Sent Messages");
         viewPager.setAdapter(adapter);
     }
 
