@@ -39,6 +39,7 @@
             android:background="@drawable/edit_text_border"
             android:hint="Username"
             android:paddingLeft="10dp"
+            android:text="Suhas@gmail.com"
             android:singleLine="true"
             android:textAllCaps="false"
             android:textColor="@color/md_black_1000"
@@ -71,7 +72,8 @@
             android:textAllCaps="false"
             android:textColor="@color/md_black_1000"
             android:textColorHint="@color/md_black_1000"
-            android:textSize="@dimen/text_18sp" />
+            android:textSize="@dimen/text_18sp"
+            android:text="qwerty"/>
 
         <Button
             android:id="@+id/login_button_login"

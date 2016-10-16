@@ -31,7 +31,7 @@ public abstract class AbstractNetworking implements Response.ErrorListener,Respo
     protected static final String SUCCESS = "Successful";
 
 
-    protected String params;
+    protected JSONObject params;
     protected boolean isForeground;
     protected  Context context;
     protected int type;
@@ -48,13 +48,18 @@ public abstract class AbstractNetworking implements Response.ErrorListener,Respo
 
     abstract void setParams(Object object) throws JSONException;
 
-    public  void makeRequestAndInsert(Object obj) throws JSONException{
-        setParams(obj);
-        Log.d(AbstractNetworking.class.getSimpleName() , "making req");
-        Log.e(AbstractNetworking.class.getSimpleName()+" URL ",url);
-        if(isForeground)
-            dialog = ProgressDialog.show(context,context.getString(R.string.loading),context.getString(R.string.wait),true , false);
-        VolleySingleton.getInstance(this.context).addToRequestQueue(buildRequest(this, type , url));
+    public  void makeRequestAndInsert(Object obj){
+        try {
+            setParams(obj);
+            Log.d(AbstractNetworking.class.getSimpleName() , "making req");
+            Log.e(AbstractNetworking.class.getSimpleName()+" URL ",url);
+            if(isForeground)
+                dialog = ProgressDialog.show(context,context.getString(R.string.loading),context.getString(R.string.wait),true , false);
+            VolleySingleton.getInstance(this.context).addToRequestQueue(buildRequest(this, type , url));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
 
     }
     protected abstract void parseJsonAndInsert(String response) throws  Exception;

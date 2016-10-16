@@ -99,7 +99,8 @@ public class UserSharedPreferences {
         saveString(ADDRESS, "");
         saveString(GENDER, "");
     }
-    public void saveUserPreferences(UserInfo model){
+
+    public void saveUserPreferences(UserInfo model) {
         clearUserPreferences();
         saveString(USER_ID, model.getUseId());
         saveString(FIRST_NAME, model.getFirstName());
@@ -113,7 +114,8 @@ public class UserSharedPreferences {
         saveString(ADDRESS, model.getAddress());
         saveString(GENDER, model.getGender());
     }
-    public UserInfo getBlogPreferences() {
+
+    public UserInfo getUserPreferences() {
         UserInfo model = new UserInfo();
 
         model.setUseId(loadString(USER_ID, ""));
@@ -129,5 +131,13 @@ public class UserSharedPreferences {
         model.setGender(loadString(GENDER, ""));
 
         return model;
+    }
+
+    public boolean isUserLogin() {
+        if (loadString(USER_ID, "").equalsIgnoreCase("")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

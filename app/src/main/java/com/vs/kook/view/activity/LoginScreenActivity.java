@@ -1,6 +1,5 @@
 package com.vs.kook.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,15 +24,14 @@ import org.json.JSONException;
  */
 public class LoginScreenActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoginScreenActivity";
-    private static final int START_NEXT_ACTIVITY = 100;
-    private static final int EROOR = 101;
+    public static final int START_NEXT_ACTIVITY = 100;
+    public static final int EROOR = 101;
     private EditText mEdtUserName;
     private EditText mEdtPassword;
     private Button mBtnLogin;
     private String mUsername;
     private String mPassword;
     private boolean isKeepMeLogin = false;
-
 
 
     private Handler handler = new Handler(){
@@ -49,7 +47,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
             }
         }
     };
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,10 +77,10 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_button_login:
-//                validateAndLogin();
-                Intent intent = new Intent(LoginScreenActivity.this, MainActivity.class);
+                validateAndLogin();
+              /*  Intent intent = new Intent(LoginScreenActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish();
+                finish();*/
                 break;
         }
     }
@@ -96,11 +93,8 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
             model.setDeviceId(AppUtils.getIMEI(this));
 
             LoginNetworking loginNetworking = new LoginNetworking(true,this,handler);
-            try {
-                loginNetworking.makeRequestAndInsert(model);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            loginNetworking.makeRequestAndInsert(model);
+
         }
     }
 

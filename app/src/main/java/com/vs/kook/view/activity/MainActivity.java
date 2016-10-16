@@ -1,9 +1,12 @@
 package com.vs.kook.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.gson.JsonObject;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.vs.kook.R;
 import com.vs.kook.utils.DialogUtils;
@@ -25,11 +29,37 @@ import com.vs.kook.view.fragments.CallHistoryFragment;
 import com.vs.kook.view.fragments.CleanerFragment;
 import com.vs.kook.view.fragments.DashboardFragment;
 import com.vs.kook.view.fragments.UninstallFragment;
+import com.vs.kook.view.network.LogoutNetworking;
+
+import org.json.JSONException;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SystemBarTintManager mTintManager;
     private Context mContext;
+    public static final int START_NEXT_ACTIVITY = 100;
+    public static final int EROOR = 101;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case START_NEXT_ACTIVITY:
+                    Intent intent = new Intent(MainActivity.this, LoginScreenActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    break;
+                case EROOR:
+                    break;
+
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle(getString(R.string.uninstall_apps));
                 setFragment(new UninstallFragment(), bundle);
                 break;
+            case R.id.nav_logout:
+                 LogoutNetworking logoutNetworking = new LogoutNetworking(true,this,handler);
+                 logoutNetworking.makeRequestAndInsert(null);
             default:
                 setTitle(getString(R.string.dashboard));
                 setFragment(new DashboardFragment(), bundle);

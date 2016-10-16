@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.vs.kook.utils.UserSharedPreferences;
 import com.vs.kook.view.activity.LoginScreenActivity;
 import com.vs.kook.view.activity.MainActivity;
 import com.vs.kook.view.services.SMSSendService;
@@ -42,8 +43,8 @@ public class SplashScreenActivity extends AppCompatActivity{
     };
 
     private void checkUserLogin() {
-//        boolean isLoggedIn = UserPreferences.getInstance(mContext).isUserLogin();
-        boolean isLoggedIn = false;
+        boolean isLoggedIn = UserSharedPreferences.getInstance(mContext).isUserLogin();
+//        boolean isLoggedIn = true;
         if (isLoggedIn) {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             startActivity(intent);
